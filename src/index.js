@@ -36,7 +36,7 @@ require("./routes/v1")(app, config, ErrorHandler);
 
 // set all other routes not available
 app.use("*", (req, res) => {
-    throw new ErrorHandler(404, "Page not found");
+    throw new ErrorHandler(404, "Route not found");
 });
 
 // custom error handler
