@@ -1,11 +1,11 @@
-matrix:
-  include:
-    - language: node_js
-    node_js:
-      - "12"
+language: node_js
+node_js:
+  - 10
+  - 11
+  - 12
 
-    install:
-      - npm install
+install:
+  - npm install
 
-    script:
-      - npm run lint
+script:
+  - npm run lint
