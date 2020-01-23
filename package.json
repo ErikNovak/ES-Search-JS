@@ -1,0 +1,38 @@
+{
+  "name": "template-nodejs-elasticsearch-microservice",
+  "version": "1.0.0",
+  "description": "The template to the nodejs implementation of an elasticsearch microservice",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint ./src",
+    "lint:fix": "./node_modules/.bin/eslint --fix ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice.git"
+  },
+  "keywords": [
+    "elasticsearch",
+    "microservice"
+  ],
+  "author": "Erik Novak",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice/issues"
+  },
+  "homepage": "https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "elasticsearch": "^16.6.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0"
+  }
+}
