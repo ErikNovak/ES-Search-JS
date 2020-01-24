@@ -26,7 +26,7 @@ const production = {
     port: parseInt(process.env.PROD_PORT) || 3100,
     sessionSecret: process.env.PROD_SESSION_SECRET,
     elasticsearch: {
-        host: process.env.PROD_ELASTICSEARCH_HOST
+        node: process.env.PROD_ELASTICSEARCH_NODE
     }
 };
 
@@ -36,7 +36,7 @@ const development = {
     port: parseInt(process.env.DEV_PORT) || 3101,
     sessionSecret: process.env.DEV_SESSION_SECRET,
     elasticsearch: {
-        host: process.env.DEV_ELASTICSEARCH_HOST
+        node: process.env.DEV_ELASTICSEARCH_NODE
     }
 };
 
@@ -46,7 +46,7 @@ const test = {
     port: parseInt(process.env.TEST_PORT) || 3102,
     sessionSecret: process.env.TEST_SESSION_SECRET,
     elasticsearch: {
-        host: process.env.TEST_ELASTICSEARCH_HOST
+        node: process.env.TEST_ELASTICSEARCH_NODE
     }
 };
 

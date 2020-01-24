@@ -5,6 +5,7 @@
  */
 
 const router = require("express").Router();
+const ElasticSearch = require("../../library/elasticsearch");
 const { ErrorHandler } = require("../../library/error");
 
 /**
@@ -12,12 +13,33 @@ const { ErrorHandler } = require("../../library/error");
  * @param {Object} config - The configuration object.
  */
 module.exports = (config) => {
-    // TODO: assign the appropriate routes and their functions
-    // for using elasticsearch
-    router.get("/", (req, res) => res.json({ test: "this is the test" }));
+    // esablish connection with elasticsearch
+    const es = new ElasticSearch(config.elasticsearch);
 
-    router.get("/error", (req, res) => {
-        throw new ErrorHandler(500, "Internal server error");
+    // TODO: assign the appropriate routes and their functions
+
+    router.get("/elasticsearch", async (req, res) => {
+        // TODO: extract the appropriate query parameters
+        const {
+            query: {
+                text
+            }
+        } = req;
+
+        // TODO: assign the appropriate index (possibly from the query?)
+        const index = null;
+        // TODO: assign the elasticsearch query object
+        // see: https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#_search
+        const body = null;
+
+        try {
+            // get the search results from elasticsearch
+            const results = await es.search(index, body);
+            // TODO: retrieve and format the output before sending
+            res.json(results.hits.hits);
+        } catch (error) {
+            throw new ErrorHandler(500, "Internal server error");
+        }
     });
 
     // return the router
