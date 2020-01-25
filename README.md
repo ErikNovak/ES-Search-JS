@@ -11,7 +11,7 @@ The template repository for setting up the NodeJS microservice for connecting an
 - A running ElasticSearch service (one can download and install it from [here](https://www.elastic.co/downloads/elasticsearch))
 - NodeJS version 10 or greater
 
-    To rest that your nodejs version is correct, run `node --version` in the command line
+    To test that your nodejs version is correct, run `node --version` in the command line.
 
 ## Install
 
@@ -25,5 +25,3 @@ To start the microservice in development mode run the following command
 ```bash
 npm start
 ```
-
-TODO: add additional information

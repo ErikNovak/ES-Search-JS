@@ -3,18 +3,17 @@
 
 // express related packages
 const express = require("express");
+const session = require("express-session");
+
 // request parsing packages
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
-// import configurations
-const config = require("./config/config");
-
-// TODO: import and create logging objects
-// NOTE: use winston express middleware to log all requests
-
 // import error handling objects
 const { handleError, ErrorHandler } = require("./library/error");
+
+// import configurations
+const config = require("./config/config");
 
 // initialize express app
 let app = express();
@@ -30,6 +29,17 @@ app.use(cookieParser(config.sessionSecret));
 if (config.environment === "production") {
     app.set("trust proxy", 1);
 }
+
+app.use(session({
+    secret: config.sessionSecret,
+    saveUninitialized: false,
+    resave: false,
+    // TODO: set cookie configuration for production (domain)
+}));
+
+// import and create logging objects
+app.use(require("./middleware/logging")("elasticsearch",
+    "info", config.environment !== "production"));
 
 // set the API routes of all supported version
 require("./routes/v1")(app, config, ErrorHandler);

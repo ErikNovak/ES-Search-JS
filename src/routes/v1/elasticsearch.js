@@ -36,7 +36,7 @@ module.exports = (config) => {
             // get the search results from elasticsearch
             const results = await es.search(index, body);
             // TODO: retrieve and format the output before sending
-            res.json(results.hits.hits);
+            return res.json(results.hits.hits);
         } catch (error) {
             throw new ErrorHandler(500, "Internal server error");
         }
