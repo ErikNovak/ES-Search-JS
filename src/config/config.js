@@ -24,7 +24,7 @@ const common = {
 const production = {
     // TODO: add production variables
     port: parseInt(process.env.PROD_PORT) || 3100,
-    sessionSecret: process.env.PROD_SESSION_SECRET,
+    sessionsecret: process.env.PROD_SESSION_SECRET,
     elasticsearch: {
         node: process.env.PROD_ELASTICSEARCH_NODE
     }
@@ -34,7 +34,7 @@ const production = {
 const development = {
     // TODO: add development variables
     port: parseInt(process.env.DEV_PORT) || 3101,
-    sessionSecret: process.env.DEV_SESSION_SECRET,
+    sessionsecret: process.env.DEV_SESSION_SECRET,
     elasticsearch: {
         node: process.env.DEV_ELASTICSEARCH_NODE
     }
@@ -44,7 +44,7 @@ const development = {
 const test = {
     // TODO: add test variables
     port: parseInt(process.env.TEST_PORT) || 3102,
-    sessionSecret: process.env.TEST_SESSION_SECRET,
+    sessionsecret: process.env.TEST_SESSION_SECRET,
     elasticsearch: {
         node: process.env.TEST_ELASTICSEARCH_NODE
     }

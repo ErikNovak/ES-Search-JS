@@ -3,7 +3,6 @@
 
 // express related packages
 const express = require("express");
-const session = require("express-session");
 
 // request parsing packages
 const bodyParser = require("body-parser");
@@ -23,23 +22,18 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
     extended: true
 }));
-app.use(cookieParser(config.sessionSecret));
+app.use(cookieParser(config.sessionsecret));
 
 // add session configurations
 if (config.environment === "production") {
     app.set("trust proxy", 1);
 }
-
-app.use(session({
-    secret: config.sessionSecret,
-    saveUninitialized: false,
-    resave: false,
-    // TODO: set cookie configuration for production (domain)
-}));
-
 // import and create logging objects
-app.use(require("./middleware/logging")("elasticsearch",
-    "info", config.environment !== "production"));
+app.use(require("./middleware/logging")(
+    "elasticsearch",
+    "info",
+    config.environment !== "production"
+));
 
 // set the API routes of all supported version
 require("./routes/v1")(app, config, ErrorHandler);
