@@ -24,7 +24,7 @@ one of the developers contributing to this project.
 
 PROD_PORT={production-service-port: integer}
 PROD_SESSION_SECRET={production-session-secret: string}
-PROD_ELASTICSEARCH_HOST={production-elasticsearch-host: address:port}
+PROD_ELASTICSEARCH_NODE={production-elasticsearch-node: address:port}
 
 #######################################
 ### Development variables
@@ -32,7 +32,7 @@ PROD_ELASTICSEARCH_HOST={production-elasticsearch-host: address:port}
 
 DEV_PORT={development-service-port: integer}
 DEV_SESSION_SECRET={development-session-secret: string}
-DEV_ELASTICSEARCH_HOST={development-elasticsearch-host: address:port}
+DEV_ELASTICSEARCH_NODE={development-elasticsearch-node: address:port}
 
 #######################################
 ### Test variables
@@ -40,6 +40,5 @@ DEV_ELASTICSEARCH_HOST={development-elasticsearch-host: address:port}
 
 TEST_PORT={test-service-port: integer}
 TEST_SESSION_SECRET={test-session-secret: string}
-TEST_ELASTICSEARCH_HOST={test-elasticsearch-host: address:port}
+TEST_ELASTICSEARCH_NODE={test-elasticsearch-node: address:port}
 ```
-
