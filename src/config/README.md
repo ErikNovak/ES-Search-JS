@@ -17,7 +17,7 @@ What follows is an example of the `.env` file. To get the right tokens contact o
 ### Production variables
 #######################################
 
-PROD_PORT={production-service-port: integer}
+PROD_PORT={production-service-port: integer} Default: 3100
 PROD_SESSION_SECRET={production-session-secret: string}
 PROD_ELASTICSEARCH_NODE={production-elasticsearch-node: address:port} i.e.http://127.0.0.1:9200
 PROD_ELASTICSEARCH_INDEX=documents
@@ -26,7 +26,7 @@ PROD_ELASTICSEARCH_INDEX=documents
 ### Development variables
 #######################################
 
-DEV_PORT={development-service-port: integer}
+DEV_PORT={development-service-port: integer} Default: 3101
 DEV_SESSION_SECRET={development-session-secret: string}
 DEV_ELASTICSEARCH_NODE={development-elasticsearch-node: address:port} i.e.http://127.0.0.1:9200
 DEV_ELASTICSEARCH_INDEX=documents
@@ -35,7 +35,7 @@ DEV_ELASTICSEARCH_INDEX=documents
 ### Test variables
 #######################################
 
-TEST_PORT={test-service-port: integer}
+TEST_PORT={test-service-port: integer} Default: 3102
 TEST_SESSION_SECRET={test-session-secret: string}
 TEST_ELASTICSEARCH_NODE={test-elasticsearch-node: address:port} i.e.http://127.0.0.1:9200
 TEST_ELASTICSEARCH_INDEX=documents
