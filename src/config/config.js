@@ -26,7 +26,8 @@ const production = {
     port: parseInt(process.env.PROD_PORT) || 3100,
     sessionsecret: process.env.PROD_SESSION_SECRET,
     elasticsearch: {
-        node: process.env.PROD_ELASTICSEARCH_NODE
+        node: process.env.PROD_ELASTICSEARCH_NODE,
+        index: process.env.PROD_ELASTICSEARCH_INDEX
     }
 };
 
@@ -36,7 +37,8 @@ const development = {
     port: parseInt(process.env.DEV_PORT) || 3101,
     sessionsecret: process.env.DEV_SESSION_SECRET,
     elasticsearch: {
-        node: process.env.DEV_ELASTICSEARCH_NODE
+        node: process.env.DEV_ELASTICSEARCH_NODE,
+        index: process.env.DEV_ELASTICSEARCH_INDEX
     }
 };
 
@@ -46,17 +48,16 @@ const test = {
     port: parseInt(process.env.TEST_PORT) || 3102,
     sessionsecret: process.env.TEST_SESSION_SECRET,
     elasticsearch: {
-        node: process.env.TEST_ELASTICSEARCH_NODE
+        node: process.env.TEST_ELASTICSEARCH_NODE,
+        index: process.env.TEST_ELASTICSEARCH_INDEX
     }
 };
-
 
 const config = {
     production,
     development,
     test
 };
-
 
 /**
  * Creates a deep merge between two JSON objects.

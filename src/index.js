@@ -18,9 +18,10 @@ const config = require("./config/config");
 let app = express();
 
 // configure application
-app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.json({ limit: "1mb" })); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-    extended: true
+    extended: true,
+    limit: "1mb"
 }));
 app.use(cookieParser(config.sessionsecret));
 
@@ -39,14 +40,19 @@ app.use(require("./middleware/logging")(
 require("./routes/v1")(app, config, ErrorHandler);
 
 // set all other routes not available
-app.use("*", (req, res) => {
-    throw new ErrorHandler(404, "Route not found");
+app.use("*", (req, res, next) => {
+    next(new ErrorHandler(404, "Route not found"));
 });
 
+// import and create logging objects
+app.use(require("./middleware/logging")(
+    "elasticsearch",
+    "error",
+    config.environment !== "production"
+));
+
 // custom error handler
-app.use((err, req, res, next) => {
-    handleError(err, res);
-});
+app.use((err, req, res, next) => handleError(err, res));
 
 // start the express server
 const server = app.listen(config.port, () => {

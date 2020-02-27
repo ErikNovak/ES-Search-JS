@@ -8,9 +8,7 @@ require("winston-daily-rotate-file");
 const fileSystem = require("../library/file-system");
 
 // archive required modules
-const fs = require("fs");
 const path = require("path");
-const archiver = require("archiver");
 
 // the error objects
 const { ErrorHandler } = require("../library/error");
@@ -27,8 +25,8 @@ const transportCreator = (filename, dirname, level) => {
         throw new ErrorHandler(500, "Internal server error");
     }
     // create the basic daily transport
-    let transport = new (winston.transports.DailyRotateFile)({
-        filename,
+    return new (winston.transports.DailyRotateFile)({
+        filename: `${filename}-${level}`,
         dirname,
         datePattern: "YYYY-MM-DD",
         name: filename,
@@ -39,76 +37,6 @@ const transportCreator = (filename, dirname, level) => {
             winston.format.json()
         )
     });
-
-    /**
-     * @description Generates the file name used in the file rotation.
-     * @param {String} level - The level of the transport.
-     * @param {String} year - The year of the log creation.
-     * @param {String} month - The month of the log creation.
-     * @returns {String} The name of the file for its rotation.
-     */
-    function createFilename(level, year, month) {
-        return `${year}-${month}-${level}`;
-    }
-
-    // set the rotate function / archive the previous month of logs
-    transport.on("rotate", async (oldFilename, newFilename) => {
-        // get dates of the filenames
-        const oldDate = oldFilename.split(".")[1].split("-");
-        const newDate = newFilename.split(".")[1].split("-");
-        // create a folder to store the old files (format: YYYY-MM)
-        const monthFolderPath = path.join(dirname,
-            createFilename(level, oldDate[0], oldDate[1]));
-
-        fileSystem.createFolder(monthFolderPath);
-
-        // move old file to the corresponding folder
-        fileSystem.moveFile(oldFilename,
-            path.join(monthFolderPath, path.basename(oldFilename)));
-
-        // if the months don't match
-        if (oldDate[1] !== newDate[1]) {
-            // get second-to-last month and year
-            let tempMonth = parseInt(oldDate[1]) - 1;
-
-            const prevMonth = tempMonth === 0 ? 12 : tempMonth;
-            const prevYear = prevMonth === 12 ? oldDate[0] - 1 : oldDate[0];
-
-            // check if the second-to-last month folder exists
-            const prevFolderPath = path.join(dirname,
-                createFilename(level, prevYear, (`0${prevMonth}`).slice(-2)));
-
-            if (fs.existsSync(prevFolderPath)) {
-                // archive second-to-last log folders
-                // only the current and previous month logs are not archived
-                const output = fs.createWriteStream(`${prevFolderPath}.tar.gz`);
-                // zip up the archive folders
-                let archive = archiver("tar", {
-                    gzip: true,
-                    gzipOptions: { level: 9 } // set the compression level
-                });
-                // set the output of the arhive
-                archive.pipe(output);
-                // catching warnings
-                archive.on("warning", (error) => {
-                    if (error.code === "ENOENT") {
-                        // logging errors
-                    } else {
-                        throw new ErrorHandler(500, "Internal server error");
-                    }
-                });
-                archive.on("error", (error) => {
-                    throw new ErrorHandler(500, "Internal server error");
-                });
-                // append files from the directory
-                archive.directory(prevFolderPath, false);
-                // finalize the archive and remove the original folder
-                await archive.finalize();
-                fileSystem.removeFolder(prevFolderPath);
-            }
-        }
-    });
-    return transport;
 };
 
 /**

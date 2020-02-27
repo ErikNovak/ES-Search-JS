@@ -38,7 +38,8 @@ class ElasticSearch {
      * index was previously present. Otherwise, null.
      */
     async deleteIndex(index) {
-        if (await this.client.indices.exists({ index })) {
+        const { body: exists } = await this.client.indices.exists({ index });
+        if (exists) {
             return await this.client.indices.delete({ index });
         }
         return null;
@@ -59,8 +60,9 @@ class ElasticSearch {
      * @param {Object} body - The body of the record being pushed to the index.
      * @returns {Object} The elasticsearch record creation record.
      */
-    async pushRecord(index, body) {
+    async pushRecord(index, body, documentId = null) {
         return await this.client.index({
+            ...documentId && { id: documentId },
             index,
             body
         });
@@ -74,10 +76,11 @@ class ElasticSearch {
      * @returns {Object} The elasticsearch update object.
      */
     async updateRecord(index, documentId, body) {
-        return this.client.update({
+        return await this.client.update({
             index,
+            type: "_doc",
             id: documentId,
-            body
+            body: { doc: body }
         });
     }
 
@@ -88,7 +91,7 @@ class ElasticSearch {
      * @returns {Object} The elasticsearch delete object.
      */
     async deleteRecord(index, documentId) {
-        return this.client.delete({
+        return await this.client.delete({
             id: documentId,
             index
         });
