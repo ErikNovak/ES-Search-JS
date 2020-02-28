@@ -38,7 +38,7 @@ async function createIndex() {
             // mapping is the process of defining how a document and the fields it contains are stored
             // see: https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
 
-            mapping: {
+            mappings: {
                 properties: {
                     // each attribute has its own field (except of the array type)
                     // see: https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
