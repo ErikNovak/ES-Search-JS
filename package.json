@@ -1,29 +1,37 @@
 {
-  "name": "template-nodejs-elasticsearch-microservice",
+  "name": "es-service-js",
   "version": "1.0.0",
-  "description": "The template to the nodejs implementation of an elasticsearch microservice",
+  "description": "The template to the NodeJS implementation of an Elasticsearch microservice",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "development": "./node_modules/nodemon/bin/nodemon.js src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "./node_modules/.bin/eslint ./src",
-    "lint:fix": "./node_modules/.bin/eslint --fix ./src"
+    "build": "./node_modules/typescript/bin/tsc",
+    "start": "node dist/search.js",
+    "development": "./node_modules/nodemon/bin/nodemon.js --config ./nodemon.json",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "format": "./node_modules/.bin/tsfmt -r",
+    "lint": "./node_modules/.bin/tslint --project .",
+    "lint:fix": "./node_modules/.bin/tslint --fix --project ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice.git"
+    "url": "git+https://github.com/ErikNovak/EServiceJS.git"
   },
   "keywords": [
     "elasticsearch",
     "microservice"
   ],
   "author": "Erik Novak",
+  "contributors": [
+    {
+      "name": "Erik Novak",
+      "email": "erik.novak@ijs.si"
+    }
+  ],
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice/issues"
+    "url": "https://github.com/ErikNovak/EServiceJS/issues"
   },
-  "homepage": "https://github.com/ErikNovak/template-nodejs-elasticsearch-microservice#readme",
+  "homepage": "https://github.com/ErikNovak/EServiceJS#readme",
   "dependencies": {
     "@elastic/elasticsearch": "^7.5.0",
     "body-parser": "^1.19.0",
@@ -36,9 +44,14 @@
     "winston-daily-rotate-file": "^4.4.2"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.0",
-    "nodemon": "^2.0.2"
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.27",
+    "husky": "^4.2.5",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.7",
+    "typescript-formatter": "^7.2.2"
   }
 }

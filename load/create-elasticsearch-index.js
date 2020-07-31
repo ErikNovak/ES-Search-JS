@@ -1,9 +1,8 @@
 
 // import required modules
-const ElasticSearch = require("../library/elasticsearch");
-
+const { default: ElasticSearch } = require("../dist/library/elasticsearch");
 // get configuration object
-const config = require("../config/config");
+const { default: config } = require("../config/config");
 
 // --------------------------------------
 // Establish connection with elasticsearch

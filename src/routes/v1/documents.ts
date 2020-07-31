@@ -1,59 +1,48 @@
 /**
  * ElasticSearch API
  * The API routes associated with retrieving and
- * manipuating data from elasticsearch.
- * https://www.elastic.co/elasticsearch
+ * manipuating data from Elastic Search.
  */
 
-const router = require("express").Router();
-const ElasticSearch = require("../../library/elasticsearch");
-const { ErrorHandler } = require("../../library/error");
+import { IConfiguration, ISearch } from "../../Interfaces";
 
+
+import { Router, Request, Response, NextFunction } from "express";
 // validating the query parameters
-const { query, body, param } = require("express-validator");
-
+import { query, param } from "express-validator";
 // creation of the query string to help the user navigate through
-const querystring = require("querystring");
+import * as querystring from "querystring";
+// add error handling functionality
+import { ErrorHandler } from "../../library/error";
+// import elasticsearch module
+import Elasticsearch from "../../library/elasticsearch";
 
-// ----------------------------------------------
-// Helper functions in route
-// ----------------------------------------------
+// initialize the express router
+const router = Router();
 
-/**
- * @description Formats the elasticsearch document.
- * @param {Object} hit - The elasticsearch document hit object containing the document attributes.
- * @returns {Object} The formatted document hit object.
- */
-function formatHitDocument(hit) {
+// format the material
+function materialFormat(hit: any) {
     return {
-        weight: hit._score,
-        // TODO: add additional values
+        weight: hit._score
     };
 }
 
-// TODO: add helper functions (if required)
+// assign the elasticsearch API routes
+export default (config: IConfiguration) => {
+    // establish connection with elasticsearch
+    const es = new Elasticsearch(config.elasticsearch);
 
-/**
- * @description Assign the elasticsearch API routes.
- * @param {Object} config - The configuration object.
- */
-module.exports = (config) => {
-    // esablish connection with elasticsearch
-    const es = new ElasticSearch(config.elasticsearch);
-
-    // set default parameters
+    // set the default parameters
     const DEFAULT_LIMIT = 20;
     const MAX_LIMIT = 100;
     const DEFAULT_PAGE = 1;
-    const BASE_URL = `http://localhost:${config.port}/api/v1/elasticsearch`;
+    const BASE_URL = `http://localhost:${config.port}/api/v1/search`;
     // assign the index name (from the config file)
     const esIndex = config.elasticsearch.index;
 
-    // TODO: specify additional default values (if needed)
-
 
     /**
-     * @api {GET} /api/v1/documents Search through the documents.
+     * @api {GET} /api/v1/documents Search through the OER materials
      * @apiVersion 1.0.0
      * @apiName searchAPI
      * @apiGroup search
@@ -61,18 +50,16 @@ module.exports = (config) => {
     router.get("/documents", [
         query("text").trim(),
         query("limit").optional().toInt(),
-        query("page").optional().toInt(),
-        // TODO: add query parameters (if required)
-    ], async (req, res, next) => {
+        query("page").optional().toInt()
+    ], async (req: Request, res: Response, next: NextFunction) => {
         // extract the appropriate query parameters
-        let {
-            query: {
-                text,
-                limit,
-                page
-                // TODO: get other query parameters
-            }
-        } = req;
+        const requestQuery: ISearch = req.query;
+        const {
+            text,
+            limit: queryLimit,
+            page: queryPage
+            // TODO: get other query parameters
+        } = requestQuery;
 
         // --------------------------------------
         // Check required query parameters
@@ -81,7 +68,7 @@ module.exports = (config) => {
         if (!text) {
             return res.status(400).json({
                 message: "query parameter 'text' not available",
-                query: req.query
+                query: requestQuery
             });
         }
 
@@ -90,18 +77,18 @@ module.exports = (config) => {
         // --------------------------------------
 
         // set default pagination values
-        if (!limit) {
-            limit = DEFAULT_LIMIT;
-        } else if (limit <= 0) {
-            limit = DEFAULT_LIMIT;
-        } else if (limit >= MAX_LIMIT) {
-            limit = MAX_LIMIT;
-        }
-        req.query.limit = limit;
-        if (!page) {
-            page = DEFAULT_PAGE;
-            req.query.page = page;
-        }
+        // which part of the materials do we want to query
+        const limit: number = !queryLimit
+            ? DEFAULT_LIMIT
+            : queryLimit <= 0
+                ? DEFAULT_LIMIT
+                : queryLimit >= MAX_LIMIT
+                    ? DEFAULT_LIMIT
+                    : queryLimit;
+
+        const page: number = !queryPage
+            ? DEFAULT_PAGE
+            : queryPage;
 
         // which part of the documents do we want to query
         const size = limit;
@@ -155,7 +142,7 @@ module.exports = (config) => {
             // Format the results before sending
             // --------------------------------------
 
-            const output = results.hits.hits.map(formatHitDocument);
+            const output = results.hits.hits.map(materialFormat);
 
             // --------------------------------------
             // Add additional metadata to response
@@ -187,7 +174,7 @@ module.exports = (config) => {
                     total_hits,
                     total_pages,
                     prev_page,
-                    next_page,
+                    next_page
                     // aggregations: results.aggregations // TODO: modify the aggreations when used
                 }
             });
@@ -246,12 +233,12 @@ module.exports = (config) => {
      * @apiGroup search
      */
     router.get("/documents/:document_id", [
-        param("document_id").toInt(),
+        param("document_id").toInt()
     ], async (req, res, next) => {
         const {
             params: {
                 document_id
-            },
+            }
         } = req;
 
         // --------------------------------------
@@ -285,7 +272,7 @@ module.exports = (config) => {
             // Format the results before sending
             // --------------------------------------
 
-            const output = results.hits.hits.map(formatHitDocument)[0];
+            const output = results.hits.hits.map(materialFormat)[0];
 
             // --------------------------------------
             // Return the results
@@ -308,8 +295,8 @@ module.exports = (config) => {
      * @apiGroup search
      */
     router.patch("/documents/:document_id", [
-        param("document_id").toInt(),
-    ], async (req, res, next) => {
+        param("document_id").toInt()
+    ], async (req: Request, res: Response, next: NextFunction) => {
         const {
             params: { document_id },
             body: { document }
@@ -364,7 +351,7 @@ module.exports = (config) => {
      */
     router.delete("/document/:document_id", [
         param("document_id").toInt()
-    ], async (req, res, next) => {
+    ], async (req: Request, res: Response, next: NextFunction) => {
         const {
             params: { document_id }
         } = req;
