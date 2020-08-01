@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ErikNovak/EServiceJS.git"
+    "url": "git+https://github.com/ErikNovak/ES-Search-JS.git"
   },
   "keywords": [
     "elasticsearch",
@@ -29,9 +29,9 @@
   ],
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/ErikNovak/EServiceJS/issues"
+    "url": "https://github.com/ErikNovak/ES-Search-JS/issues"
   },
-  "homepage": "https://github.com/ErikNovak/EServiceJS#readme",
+  "homepage": "https://github.com/ErikNovak/ES-Search-JS#readme",
   "dependencies": {
     "@elastic/elasticsearch": "^7.5.0",
     "body-parser": "^1.19.0",
