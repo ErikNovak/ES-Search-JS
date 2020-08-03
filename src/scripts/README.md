@@ -104,7 +104,9 @@ elasticsearch.
 
     output {
         # used to output the values in the terminal (DEBUGGING)
+        # once everything is working, comment out this line
         stdout { codec => "json" }
+        # used to output the values into elasticsearch
         elasticsearch {
             hosts => ["{es_host_address_1}"]
             index => "{es_index}"
@@ -114,8 +116,28 @@ elasticsearch.
     }
     ```
 
+4. **Test the Logstash Configuration.** Logstash supports running a specific
+   configuration by passing its file path to the `-f` parameter. Run the
+   following command to test your new configuration from the last step:
+   ```bash
+    sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/{config_name}.conf
+   ```
 
-**Helpful Links:**
+    Check the output to see if the configuration is working accordingly.
+
+5. **Start the Logstash service.** Once the configuration is working as it should,
+   you can start (or restart) the Logstash service by running the command:
+
+   ```bash
+   # to start the service
+   sudo systemctl start logstash
+   # to restart the service
+   sudo systemctl restart logstash
+   ```
+
+    After that, the Logstash should periodically synchronize the Elasticsearch service.
+
+### Helpful Links
 
 - [How To Analyze Managed PostgreSQL Database Statistics Using the Elastic Stack on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-analyze-managed-postgresql-database-statistics-using-the-elastic-stack-on-ubuntu-18-04)
 - [Insert Into Logstash Select Data from Database](https://www.elastic.co/blog/logstash-jdbc-input-plugin)
