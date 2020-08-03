@@ -25,7 +25,7 @@ async function createIndex() {
     // --------------------------------------
 
     const indexDocuments = [];
-    for (let document of documents) {
+    for (const document of documents) {
         // the last parameter is optional but helpful when querying for a specific document
         indexDocuments.push(es.pushRecord(esIndex, document /* , document.document_id */));
     }
