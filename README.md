@@ -1,6 +1,6 @@
-# NodeJS Elasticsearch Microservice
+# ES-Service-JS
 
-[![Build Status](https://travis-ci.com/ErikNovak/template-nodejs-elasticsearch-microservice.svg?branch=master)](https://travis-ci.com/ErikNovak/template-nodejs-elasticsearch-microservice)
+[![Build Status](https://travis-ci.com/ErikNovak/ES-Service-JS.svg?branch=master)](https://travis-ci.com/ErikNovak/ES-Service-JS)
 ![Node](https://img.shields.io/badge/node-%3E%3D%2010.0.0-green.svg)
 ![Platform](https://img.shields.io/badge/platform-linux-green.svg)
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-green.svg)](https://opensource.org/licenses/BSD-2-Clause)
@@ -28,7 +28,7 @@ After the installation process, one must modify the following files to meet the 
 
 - **Updating the elasticsearch indexing script.** To create and populate the elasticsearch index, try modifying and using the [create-elasticsearch-index.js](./src/load/create-elasticsearch-index.js) file to speed up the process.
 
-- **Modify the microservice routes.** Once the elasticsearch index is set, the final thing to be updated is the elasticsearch route located [here](./src/routes/v1/elasticsearch.js). Check and configure the file to match the microservices' needs.
+- **Modify the microservice routes.** Once the elasticsearch index is set, the final thing to be updated is the elasticsearch route located [here](./src/routes/v1/elasticsearch.ts). Check and configure the file to match the microservices' needs.
 
 
 ## Starting the microservice

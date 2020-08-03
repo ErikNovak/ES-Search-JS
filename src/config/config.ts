@@ -1,10 +1,3 @@
-/**
- * Microservice configuration variables
- * It generates the configuration object used across
- * the microservice. This object contains the environment
- * variables.
- */
-
 import * as Interfaces from "../Interfaces";
 
 // external modules
